@@ -1,0 +1,51 @@
+import mysql.connector
+conn=mysql.connector.connect(user='root',password='loganjames250',database='student')
+cursor=conn.cursor()
+query=('select * from grades')
+modify=('update grades set name=%s math=%s english=%s chinese=%s synthesis=%s where no=%s')
+insert=('insert into grades values(%s,%s,%s,%s,%s,%s)')
+delete=('delete from grades where no=%s')
+print('***********************欢迎使用xx中学学生成绩管理系统***********************')
+print('----------------------------------请选择------------------------------------')
+print('----------------------------------1.查询------------------------------------')
+print('----------------------------------2.新增------------------------------------')
+print('----------------------------------3.退出------------------------------------')
+print('---------------------PS:录入成绩时，若某科成绩暂无，请填0-------------------')
+x=input("你的选择是")
+while True:
+    if x=='3':
+        cursor.close()
+        conn.close()
+        break
+    elif x=='1':
+        print('     学号        姓名   数学  英语 语文 综合')
+        cursor.execute(query)
+        result=cursor.fetchall()
+        for a in result:
+            print(a)
+    elif x=='2':
+        data=[]
+        print('请输入学号')
+        y=input()
+        data.append(y)
+        print('请输入姓名')
+        y=input()
+        data.append(y)
+        print('请输入数学成绩')
+        y=input()
+        data.append(y)
+        print('请输入英语成绩')
+        y=input()
+        data.append(y)
+        print('请输入语文成绩')
+        y=input()
+        data.append(y)
+        print('请输入综合成绩（文综或理综）')
+        y=input()
+        data.append(y)
+        cursor.execute(insert,data)
+        conn.commit()
+    else:
+        print('输入有误，请重新输入')
+    x=input('请输入接下来的操作')
+    conn.commit()
